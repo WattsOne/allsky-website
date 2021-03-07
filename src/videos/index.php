@@ -9,7 +9,9 @@
 		<?php
 
 		$files = array();
-		if ($handle = opendir('.')) {
+		$dir = '/media/videos';
+		$thumbsdir = './thumbnails';
+		if ($handle = opendir($dir)) {
 
 			while (false !== ($entry = readdir($handle))) {
 
@@ -23,6 +25,10 @@
 		}
 
 		asort($files);
+		
+		if (!is_dir($thumbsdir)) {
+				mkdir($thumbsdir, 0755);
+		}
 
 		echo "<a class='back-button' href='..'><i class='fa fa-chevron-left'></i>Back to Live View</a>";
 		echo "<div class=archived-videos>";
@@ -32,11 +38,11 @@
 			$month = substr($file, 11, 2);
 			$day = substr($file, 13, 2);
 			$date = $year.$month.$day;
-			if (file_exists("thumbnails/".$date.".gif")){
+			if (file_exists($thumbsdir.$date.".gif")){
 				//echo "<img style='display:none' src='thumbnails/".$date.".gif'>";
-				echo "<a href='./$file'><div class='day-container'><div class='image-container'><img id=".$date." src='../aurora-snap.jpg' title='$year-$month-$day' onmouseenter='onImgEnter(this)' onmouseleave='onImgLeave(this)'/></div><div>$year-$month-$day</div></div></a>";
+				echo "<a href='$dir/$file'><div class='day-container'><div class='image-container'><img id=".$date." src='../aurora-snap.jpg' title='$year-$month-$day' onmouseenter='onImgEnter(this)' onmouseleave='onImgLeave(this)'/></div><div>$year-$month-$day</div></div></a>";
 			} else {
-				echo "<a href='./$file'><div class='day-container'><div class='image-container'><img id=".$date." src='../aurora-snap.jpg' title='$year-$month-$day'/></div><div>$year-$month-$day</div></div></a>";
+				echo "<a href='$dir/$file'><div class='day-container'><div class='image-container'><img id=".$date." src='../aurora-snap.jpg' title='$year-$month-$day'/></div><div>$year-$month-$day</div></div></a>";
 			}
 			
 		}
@@ -44,7 +50,7 @@
 		?>
 		<script>
 			function onImgEnter(img) {
-				$(img).attr("src", "thumbnails/" + $(img).attr("id") + ".gif");              
+				$(img).attr("src", "$thumbsdir" + $(img).attr("id") + ".gif");              
 			}
 			function onImgLeave(img) {
 				$(img).attr("src", "../aurora-snap.jpg");              

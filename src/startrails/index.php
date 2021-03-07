@@ -9,9 +9,9 @@
 		<?php
 
         include '../functions.php';
-
+		$dir = '/media/startrails';
         $files = array();
-		if ($handle = opendir('.')) {
+		if ($handle = opendir($dir)) {
 
 			while (false !== ($entry = readdir($handle))) {
 
@@ -26,22 +26,22 @@
 
 		asort($files);
 	
-	if (!is_dir('thumbnails')) {
-	        mkdir('thumbnails', 0755);
+	if (!is_dir($dir.'/thumbnails')) {
+	        mkdir($dir.'/thumbnails', 0755);
 	}
 
         echo "<a class='back-button' href='..'><i class='fa fa-chevron-left'></i>Back to Live View</a>";
 		echo "<div class=archived-videos>";
 
 		foreach ($files as $file) {
-            if (!file_exists('thumbnails/'.$file)) {
-                make_thumb($file, 'thumbnails/'.$file, 100);
+            if (!file_exists($dir.'/thumbnails/'.$file)) {
+                make_thumb($dir.'/'.$file, $dir.'/thumbnails/'.$file, 100);
             }
 			$year = substr($file, 11, 4);
 			$month = substr($file, 15, 2);
 			$day = substr($file, 17, 2);
 			$date = $year.$month.$day;
-			echo "<a href='./$file'><div class='day-container'><div class='image-container'><img id=".$date." src='./thumbnails/$file' title='Startrails-$year-$month-$day'/></div><div>$year-$month-$day</div></div></a>";
+			echo "<a href='$dir/$file'><div class='day-container'><div class='image-container'><img id=".$date." src='$dir/thumbnails/$file' title='Startrails-$year-$month-$day'/></div><div>$year-$month-$day</div></div></a>";
 		}
 		echo "</div>";
 
