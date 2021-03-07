@@ -11,7 +11,7 @@ RUN echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)"
 RUN echo 'xdebug.client_port=9000' >> /usr/local/etc/php/php.ini
 RUN echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/php.ini
 RUN echo 'xdebug.mode=debug' >> /usr/local/etc/php/php.ini
-COPY src /var/www/
-RUN chown -R www-data:www-data /var/www
+COPY src /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 EXPOSE 9000
 EXPOSE 80
